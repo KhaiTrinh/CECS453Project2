@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +26,9 @@ public class ControlsFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private Button btnPrev, btnNext;
+    private CheckBox cbSlide;
 
     public ControlsFragment() {
         // Required empty public constructor
@@ -58,7 +64,35 @@ public class ControlsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_controls, container, false);
+        ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_controls, container, false);
+
+        btnPrev = root.findViewById(R.id.btnPrev);
+        btnNext = root.findViewById(R.id.btnNext);
+        cbSlide = root.findViewById(R.id.cb_slide);
+
+        btnPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("PREV BUTTON PRESSED");
+            }
+        });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("NEXT BUTTON PRESSED");
+            }
+        });
+
+        cbSlide.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if(isChecked) {
+                    System.out.println("SLIDE BOX CHECKED");
+                }
+            }
+        });
+
+        return root;
     }
 }
