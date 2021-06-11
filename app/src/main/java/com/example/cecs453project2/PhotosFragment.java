@@ -11,8 +11,6 @@ import android.widget.ImageView;
 
 public class PhotosFragment extends Fragment {
 
-    private int[] animals;
-
     private ImageView ivAnimal;
 
     public PhotosFragment() {
@@ -30,9 +28,11 @@ public class PhotosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_photos, container, false);
-        animals = MainActivity.ANIMALS;
         ivAnimal = root.findViewById(R.id.iv_animals);
-        //ivAnimal.setImageResource(animals[5]);
         return root;
+    }
+
+    public void changeImage(int id) {
+        ivAnimal.setImageResource(id);
     }
 }
