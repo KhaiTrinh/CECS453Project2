@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Photo Album</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="btn_next">Next</string>
     <string name="btn_prev">Previous</string>
     <string name="cb_gallery">Gallery View</string>
