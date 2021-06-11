@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">CECS453Project2</string>
+    <string name="app_name">Photo Album</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btn_next">Next</string>
+    <string name="btn_prev">Previous</string>
+    <string name="cb_gallery">Gallery View</string>
+    <string name="cb_slide">Slide View</string>
 </resources>
