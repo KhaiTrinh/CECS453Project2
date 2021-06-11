@@ -11,12 +11,26 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="0.7"></LinearLayout>
+        android:layout_weight="0.7">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragPhotos"
+            android:name="com.example.cecs453project2.PhotosFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="0.3"></LinearLayout>
+        android:layout_weight="0.3">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragControls"
+            android:name="com.example.cecs453project2.ControlsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>
