@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements onButtonPressedListener {
 
     public static int[] ANIMALS = {R.drawable.animal13,
                                 R.drawable.animal14,
@@ -22,5 +22,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         photosFrag = PhotosFragment.newInstance();
+    }
+
+    @Override
+    public void onButtonPressed(String control) {
+        switch(control) {
+            case "prev":
+                System.out.println("PREV BUTTON PRESSED");
+                break;
+            case "next":
+                System.out.println("NEXT BUTTON PRESSED");
+                break;
+            case "slide":
+                System.out.println("SLIDE BOX CHECKED");
+                break;
+            default:
+                System.out.println("SOMETHING WENT WRONG IDK");
+                break;
+        }
     }
 }
