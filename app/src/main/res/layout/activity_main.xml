@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="0.6">
+        android:layout_weight="0.7">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragPhotos"
@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="0.4">
+        android:layout_weight="0.3">
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fragControls"
