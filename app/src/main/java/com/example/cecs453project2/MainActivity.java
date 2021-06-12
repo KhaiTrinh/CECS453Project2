@@ -15,11 +15,9 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                                 R.drawable.animal15,
                                 R.drawable.animal16,
                                 R.drawable.animal17,
-                                R.drawable.animal18};
+                                R.drawable.animal18}; // length = 6 max index = 5
 
     private int currImg;
-
-    FragmentManager manager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +27,10 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
         currImg = 0;
 
         PhotosFragment photosFrag = PhotosFragment.newInstance(animals[currImg]);
-        manager.beginTransaction().add(R.id.fragPhotos, photosFrag).commit();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragPhotos, photosFrag);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     @Override
@@ -38,15 +39,22 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
             case "prev":
                 System.out.println("PREV BUTTON PRESSED");
                 if(currImg > 0) {
-                    PhotosFragment prev = PhotosFragment.newInstance(animals[currImg-1]);
+                    PhotosFragment prev = PhotosFragment.newInstance(animals[--currImg]);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragPhotos, prev);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                     System.out.println("PREV PROCESSED");
                 }
                 break;
             case "next":
                 System.out.println("NEXT BUTTON PRESSED");
                 if(currImg < animals.length-1) {
-                    PhotosFragment next = PhotosFragment.newInstance(animals[currImg+1]);
-                    manager.beginTransaction().replace(R.id.fragPhotos, next).commit();
+                    PhotosFragment next = PhotosFragment.newInstance(animals[++currImg]);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.replace(R.id.fragPhotos, next);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                     System.out.println("NEXT PROCESSED");
                 }
                 break;
@@ -57,5 +65,6 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                 System.out.println("SOMETHING WENT WRONG IDK");
                 break;
         }
+        System.out.println("CURRIMG = " + currImg);
     }
 }
