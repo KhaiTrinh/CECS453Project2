@@ -13,6 +13,8 @@ public class PhotosFragment extends Fragment {
 
     private ImageView ivAnimal;
 
+    private int currImg;
+
     public PhotosFragment() {
         // Required empty public constructor
     }
@@ -29,10 +31,16 @@ public class PhotosFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_photos, container, false);
         ivAnimal = root.findViewById(R.id.iv_animals);
+        currImg = R.drawable.animal13;
         return root;
     }
 
     public void changeImage(int id) {
         ivAnimal.setImageResource(id);
+        currImg = id;
+    }
+
+    public int getCurrImg() {
+        return currImg;
     }
 }

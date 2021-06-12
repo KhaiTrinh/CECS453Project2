@@ -29,11 +29,14 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
         if(photosFrag != null) {
             switch(control) {
                 case "prev":
-                    System.out.println("PREV BUTTON PRESSED");
+                    if(photosFrag.getCurrImg() != animals[0]) {
+                        photosFrag.changeImage(photosFrag.getCurrImg()-1);
+                    }
                     break;
                 case "next":
-                    System.out.println("NEXT BUTTON PRESSED");
-                    photosFrag.changeImage(animals[4]);
+                    if(photosFrag.getCurrImg() != animals[animals.length-1]) {
+                        photosFrag.changeImage(photosFrag.getCurrImg()+1);
+                    }
                     break;
                 case "slide":
                     System.out.println("SLIDE BOX CHECKED");
