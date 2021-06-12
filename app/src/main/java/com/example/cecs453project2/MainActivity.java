@@ -1,12 +1,14 @@
 package com.example.cecs453project2;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import java.sql.SQLOutput;
+import android.view.Window;
 
 public class MainActivity extends AppCompatActivity implements onButtonPressedListener {
 
@@ -15,7 +17,7 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                                 R.drawable.animal15,
                                 R.drawable.animal16,
                                 R.drawable.animal17,
-                                R.drawable.animal18}; // length = 6 max index = 5
+                                R.drawable.animal18};
 
     private int currImg;
 
@@ -24,9 +26,18 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        currImg = 0;
+        currImg = animals[0];
 
-        PhotosFragment photosFrag = PhotosFragment.newInstance(animals[currImg]);
+        ActionBar actionBar;
+        actionBar = getSupportActionBar();
+
+        // Sets status & action bar to a color the professor might like
+        Window window = this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.emerald));
+        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.emerald));
+        actionBar.setBackgroundDrawable(colorDrawable);
+
+        PhotosFragment photosFrag = PhotosFragment.newInstance(currImg);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragPhotos, photosFrag);
         transaction.addToBackStack(null);
@@ -37,25 +48,23 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
     public void onButtonPressed(String control) {
         switch(control) {
             case "prev":
-                System.out.println("PREV BUTTON PRESSED");
-                if(currImg > 0) {
-                    PhotosFragment prev = PhotosFragment.newInstance(animals[--currImg]);
+                if(currImg > animals[0]) {
+                    PhotosFragment prev = PhotosFragment.newInstance(--currImg);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
                     transaction.replace(R.id.fragPhotos, prev);
                     transaction.addToBackStack(null);
                     transaction.commit();
-                    System.out.println("PREV PROCESSED");
                 }
                 break;
             case "next":
-                System.out.println("NEXT BUTTON PRESSED");
-                if(currImg < animals.length-1) {
-                    PhotosFragment next = PhotosFragment.newInstance(animals[++currImg]);
+                if(currImg < animals[animals.length-1]) {
+                    PhotosFragment next = PhotosFragment.newInstance(++currImg);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
                     transaction.replace(R.id.fragPhotos, next);
                     transaction.addToBackStack(null);
                     transaction.commit();
-                    System.out.println("NEXT PROCESSED");
                 }
                 break;
             case "slide":
@@ -65,6 +74,5 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                 System.out.println("SOMETHING WENT WRONG IDK");
                 break;
         }
-        System.out.println("CURRIMG = " + currImg);
     }
 }
