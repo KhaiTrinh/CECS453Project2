@@ -1,8 +1,12 @@
 package com.example.cecs453project2;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
+
+import java.sql.SQLOutput;
 
 public class MainActivity extends AppCompatActivity implements onButtonPressedListener {
 
@@ -13,38 +17,45 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                                 R.drawable.animal17,
                                 R.drawable.animal18};
 
-    private PhotosFragment photosFrag;
+    private int currImg;
+
+    FragmentManager manager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        photosFrag = PhotosFragment.newInstance();
-        photosFrag = (PhotosFragment)getSupportFragmentManager().findFragmentById(R.id.fragPhotos);
+        currImg = 0;
+
+        PhotosFragment photosFrag = PhotosFragment.newInstance(animals[currImg]);
+        manager.beginTransaction().add(R.id.fragPhotos, photosFrag).commit();
     }
 
     @Override
     public void onButtonPressed(String control) {
-        if(photosFrag != null) {
-            switch(control) {
-                case "prev":
-                    if(photosFrag.getCurrImg() != animals[0]) {
-                        photosFrag.changeImage(photosFrag.getCurrImg()-1);
-                    }
-                    break;
-                case "next":
-                    if(photosFrag.getCurrImg() != animals[animals.length-1]) {
-                        photosFrag.changeImage(photosFrag.getCurrImg()+1);
-                    }
-                    break;
-                case "slide":
-                    System.out.println("SLIDE BOX CHECKED");
-                    break;
-                default:
-                    System.out.println("SOMETHING WENT WRONG IDK");
-                    break;
-            }
+        switch(control) {
+            case "prev":
+                System.out.println("PREV BUTTON PRESSED");
+                if(currImg > 0) {
+                    PhotosFragment prev = PhotosFragment.newInstance(animals[currImg-1]);
+                    System.out.println("PREV PROCESSED");
+                }
+                break;
+            case "next":
+                System.out.println("NEXT BUTTON PRESSED");
+                if(currImg < animals.length-1) {
+                    PhotosFragment next = PhotosFragment.newInstance(animals[currImg+1]);
+                    manager.beginTransaction().replace(R.id.fragPhotos, next).commit();
+                    System.out.println("NEXT PROCESSED");
+                }
+                break;
+            case "slide":
+                System.out.println("SLIDE BOX CHECKED");
+                break;
+            default:
+                System.out.println("SOMETHING WENT WRONG IDK");
+                break;
         }
     }
 }

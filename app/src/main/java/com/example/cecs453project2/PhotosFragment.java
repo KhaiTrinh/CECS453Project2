@@ -11,19 +11,30 @@ import android.widget.ImageView;
 
 public class PhotosFragment extends Fragment {
 
-    private ImageView ivAnimal;
+    private static final String IMAGE = "image";
 
-    private int currImg;
+    private int imageId;
+
+    private ImageView ivAnimal;
 
     public PhotosFragment() {
         // Required empty public constructor
     }
 
-    public static PhotosFragment newInstance() {
+    public static PhotosFragment newInstance(int id) {
         PhotosFragment fragment = new PhotosFragment();
         Bundle args = new Bundle();
+        args.putInt(IMAGE, id);
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            imageId = getArguments().getInt(IMAGE);
+        }
     }
 
     @Override
@@ -31,16 +42,7 @@ public class PhotosFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup root = (ViewGroup) inflater.inflate(R.layout.fragment_photos, container, false);
         ivAnimal = root.findViewById(R.id.iv_animals);
-        currImg = R.drawable.animal13;
+        ivAnimal.setImageResource(imageId);
         return root;
-    }
-
-    public void changeImage(int id) {
-        ivAnimal.setImageResource(id);
-        currImg = id;
-    }
-
-    public int getCurrImg() {
-        return currImg;
     }
 }
