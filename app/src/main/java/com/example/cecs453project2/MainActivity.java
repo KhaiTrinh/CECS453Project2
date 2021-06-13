@@ -5,20 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Window;
 
 public class MainActivity extends AppCompatActivity implements onButtonPressedListener {
 
+    // An array of all the id of the images
     private int[] animals = {R.drawable.animal13,
                                 R.drawable.animal14,
                                 R.drawable.animal15,
                                 R.drawable.animal16,
                                 R.drawable.animal17,
                                 R.drawable.animal18};
-
+    // Keeps track of the current image in use
     private int currImg;
 
     @Override
@@ -28,18 +28,17 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
 
         currImg = animals[0];
 
-        ActionBar actionBar;
-        actionBar = getSupportActionBar();
-
         // Sets status & action bar to a color the professor might like
         Window window = this.getWindow();
-        window.setStatusBarColor(ContextCompat.getColor(this, R.color.emerald));
-        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.emerald));
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.gray));
+        ActionBar actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.gray));
         actionBar.setBackgroundDrawable(colorDrawable);
 
-        PhotosFragment photosFrag = PhotosFragment.newInstance(currImg);
+        // Creating the initial fragment with the first image
+        PhotosFragment initialFragment = PhotosFragment.newInstance(currImg);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragPhotos, photosFrag);
+        transaction.replace(R.id.fragPhotos, initialFragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
     public void onButtonPressed(String control) {
         switch(control) {
             case "prev":
+                // Previous button is disabled when the first image is in view
                 if(currImg > animals[0]) {
                     PhotosFragment prev = PhotosFragment.newInstance(--currImg);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                 }
                 break;
             case "next":
+                // Next button is disabled when the last image is in view
                 if(currImg < animals[animals.length-1]) {
                     PhotosFragment next = PhotosFragment.newInstance(++currImg);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
