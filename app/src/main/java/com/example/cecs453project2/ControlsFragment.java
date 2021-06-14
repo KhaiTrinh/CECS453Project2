@@ -63,6 +63,7 @@ public class ControlsFragment extends Fragment {
                 }else{
                     btnPrev.setVisibility(View.VISIBLE);
                     btnNext.setVisibility(View.VISIBLE);
+                    buttonListener.onButtonPressed("stop_slide");
                 }
             }
         });

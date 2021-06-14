@@ -12,6 +12,8 @@ import android.view.Window;
 
 public class MainActivity extends AppCompatActivity implements onButtonPressedListener {
     private static final int TIME_DELAY = 2000; // millisecond delay for the slide show
+    private Thread thread; // used for the slide show
+    private boolean exit; // used to exit from the slide show thread
 
     // An array of all the id of the images
     private int[] animals = {R.drawable.animal13,
@@ -46,11 +48,6 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
         transaction.commit();
     }
 
-//    @Override
-//    public void onBackPressed(){
-//        super.onBackPressed();
-//        onButtonPressed("prev");
-//    }
 
     @Override
     public void onButtonPressed(String control) {
@@ -79,9 +76,10 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                 break;
             case "slide":
                 System.out.println("SLIDE BOX CHECKED");
-                Thread thread = new Thread(){ // creates a new thread surrounding the while loop (I had an issue where I tried to put the thread.sleep within the while loop by itself, and it wouldn't work because the while loop thread was still running, so I instead made a thread for the while loop so that I can put that to sleep as well)
+                thread = new Thread(){ // creates a new thread surrounding the while loop (I had an issue where I tried to put the thread.sleep within the while loop by itself, and it wouldn't work because the while loop thread was still running, so I instead made a thread for the while loop so that I can put that to sleep as well)
                     public void run(){
-                        while(currImg < animals[animals.length - 1]){
+                        while(currImg < animals[animals.length - 1] && !exit){
+                            Log.d("Main Activity", "Current Control: " + control);
                             onButtonPressed("next");
                             try {
                                 Thread.sleep(TIME_DELAY);
@@ -92,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                     }
                 };
                 thread.start();
+                break;
+            case "stop_slide":
+                this.exit = true;
                 break;
             default:
                 System.out.println("SOMETHING WENT WRONG IDK");
