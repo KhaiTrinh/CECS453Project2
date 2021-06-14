@@ -76,6 +76,7 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                 break;
             case "slide":
                 System.out.println("SLIDE BOX CHECKED");
+                this.exit = false;
                 thread = new Thread(){ // creates a new thread surrounding the while loop (I had an issue where I tried to put the thread.sleep within the while loop by itself, and it wouldn't work because the while loop thread was still running, so I instead made a thread for the while loop so that I can put that to sleep as well)
                     public void run(){
                         while(currImg < animals[animals.length - 1] && !exit){
