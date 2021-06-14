@@ -50,10 +50,13 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
 
     @Override
     public void onButtonPressed(String control) {
+        PhotosFragment currFrag = (PhotosFragment) getSupportFragmentManager().findFragmentById(R.id.fragPhotos);
+        if(currImg != currFrag.getImageId()) currImg = currFrag.getImageId();
+
         switch(control) {
             case "prev":
                 // Previous button is disabled when the first image is in view
-                if (currImg > animals[0]) {
+                if(currImg > animals[0]) {
                     PhotosFragment prev = PhotosFragment.newInstance(--currImg);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                 break;
             case "next":
                 // Next button is disabled when the last image is in view
-                if (currImg < animals[animals.length - 1]) {
+                if(currImg < animals[animals.length - 1]) {
                     PhotosFragment next = PhotosFragment.newInstance(++currImg);
                     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                     transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
