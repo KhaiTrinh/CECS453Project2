@@ -57,7 +57,12 @@ public class ControlsFragment extends Fragment {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if(isChecked) {
+                    btnPrev.setVisibility(View.INVISIBLE);
+                    btnNext.setVisibility(View.INVISIBLE);
                     buttonListener.onButtonPressed("slide");
+                }else{
+                    btnPrev.setVisibility(View.VISIBLE);
+                    btnNext.setVisibility(View.VISIBLE);
                 }
             }
         });

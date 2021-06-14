@@ -45,4 +45,8 @@ public class PhotosFragment extends Fragment {
         ivAnimal.setImageResource(imageId);
         return root;
     }
+
+    public int getImageId() {
+        return imageId;
+    }
 }

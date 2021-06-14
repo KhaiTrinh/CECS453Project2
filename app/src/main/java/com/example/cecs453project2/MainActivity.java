@@ -1,15 +1,19 @@
 package com.example.cecs453project2;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-
-import java.sql.SQLOutput;
+import android.util.Log;
+import android.view.Window;
 
 public class MainActivity extends AppCompatActivity implements onButtonPressedListener {
+    private static final int TIME_DELAY = 2000; // millisecond delay for the slide show
 
+    // An array of all the id of the images
     private int[] animals = {R.drawable.animal13,
                                 R.drawable.animal14,
                                 R.drawable.animal15,
@@ -17,41 +21,77 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                                 R.drawable.animal17,
                                 R.drawable.animal18};
 
+    // Keeps track of the current image in use
     private int currImg;
-
-    FragmentManager manager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        currImg = 0;
+        currImg = animals[0];
 
-        PhotosFragment photosFrag = PhotosFragment.newInstance(animals[currImg]);
-        manager.beginTransaction().add(R.id.fragPhotos, photosFrag).commit();
+        // Sets status & action bar to a color the professor might like
+        Window window = this.getWindow();
+        window.setStatusBarColor(ContextCompat.getColor(this, R.color.gray));
+        ActionBar actionBar = getSupportActionBar();
+        ColorDrawable colorDrawable = new ColorDrawable(getColor(R.color.gray));
+        actionBar.setBackgroundDrawable(colorDrawable);
+
+        // Creating the initial fragment with the first image
+        PhotosFragment initialFragment = PhotosFragment.newInstance(currImg);
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragPhotos, initialFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
+
+//    @Override
+//    public void onBackPressed(){
+//        super.onBackPressed();
+//        onButtonPressed("prev");
+//    }
 
     @Override
     public void onButtonPressed(String control) {
         switch(control) {
             case "prev":
-                System.out.println("PREV BUTTON PRESSED");
-                if(currImg > 0) {
-                    PhotosFragment prev = PhotosFragment.newInstance(animals[currImg-1]);
-                    System.out.println("PREV PROCESSED");
+                // Previous button is disabled when the first image is in view
+                if (currImg > animals[0]) {
+                    PhotosFragment prev = PhotosFragment.newInstance(--currImg);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
+                    transaction.replace(R.id.fragPhotos, prev);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }
                 break;
             case "next":
-                System.out.println("NEXT BUTTON PRESSED");
-                if(currImg < animals.length-1) {
-                    PhotosFragment next = PhotosFragment.newInstance(animals[currImg+1]);
-                    manager.beginTransaction().replace(R.id.fragPhotos, next).commit();
-                    System.out.println("NEXT PROCESSED");
+                // Next button is disabled when the last image is in view
+                if (currImg < animals[animals.length - 1]) {
+                    PhotosFragment next = PhotosFragment.newInstance(++currImg);
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
+                    transaction.replace(R.id.fragPhotos, next);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                 }
                 break;
             case "slide":
                 System.out.println("SLIDE BOX CHECKED");
+                Thread thread = new Thread(){ // creates a new thread surrounding the while loop (I had an issue where I tried to put the thread.sleep within the while loop by itself, and it wouldn't work because the while loop thread was still running, so I instead made a thread for the while loop so that I can put that to sleep as well)
+                    public void run(){
+                        while(currImg < animals[animals.length - 1]){
+                            onButtonPressed("next");
+                            try {
+                                Thread.sleep(TIME_DELAY);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                };
+                thread.start();
                 break;
             default:
                 System.out.println("SOMETHING WENT WRONG IDK");
