@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
+                            if(currImg == animals[animals.length-1]) currImg = animals[0]-1;
                         }
                     }
                 };
