@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements onButtonPressedLi
     @Override
     public void onButtonPressed(String control) {
         PhotosFragment currFrag = (PhotosFragment) getSupportFragmentManager().findFragmentById(R.id.fragPhotos);
-        if(currImg != currFrag.getImageId()) currImg = currFrag.getImageId();
+        currImg = currFrag.getImageId();
 
         switch(control) {
             case "prev":
